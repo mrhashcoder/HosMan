@@ -1,15 +1,80 @@
 //Importing Variables 
-var express = require('express');
+const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 
+dotenv.config();
 
 
+//ImPortant Data Importing from process var
+var PORT = process.env.PORT;
+var mongoURI = process.env.mongoURI;
 
 
-
-
-
+//Express App setup 
 var app = express();
-var server = app.listen(4000 , () => {
-    console.log('Server at 4000');
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
+
+
+
+//Importing Routes
+var indexRoute = require('./Routers/indexRoute');
+
+
+
+
+
+//Using Routes
+app.use(indexRoute); 
+
+
+
+//DataBase Connection
+mongoose.connect(mongoURI , {
+    useCreateIndex : true,
+    useNewUrlParser : true,
+    useUnifiedTopology : true
+}).then(() => {
+    console.log('DataBase Connected!!');
+}).catch(err => {console.log("ERR : "+ err)});
+
+
+var server = app.listen(PORT , () => {
+    console.log('Server at ' + PORT);
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
