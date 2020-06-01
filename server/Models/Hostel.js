@@ -13,7 +13,7 @@ var hostelSchema = new Schema({
     collageName : {
         type : String
     },
-    hostelerList : {
+    hostellerList : {
         type : [String]
     },
     requestList : {
@@ -30,6 +30,9 @@ var hostelSchema = new Schema({
     contact : {
         type : String
     },
+    email : {
+        type : String
+    }
 });
 
 module.exports = mongoose.model('Hostel' , hostelSchema);

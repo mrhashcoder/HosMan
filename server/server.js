@@ -23,13 +23,14 @@ app.use(bodyParser.json());
 
 //Importing Routes
 var indexRoute = require('./Routers/indexRoute');
-
+var hostelRoute = require('./Routers/hostelRoute');
 
 
 
 
 //Using Routes
 app.use(indexRoute); 
+app.use(hostelRoute);
 
 
 
