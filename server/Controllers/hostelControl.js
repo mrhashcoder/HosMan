@@ -32,7 +32,7 @@ exports.postCreateHostel = async(req,res) => {
         res.json({Mesg : "Hostel Created"}).status(200);
     }catch(err){
         console.log("Error");
-        res.json({mesg : "Some Error"}).status(400);
+        res.json({mesg : "Some Error"}).status(500);
     }
 }
 

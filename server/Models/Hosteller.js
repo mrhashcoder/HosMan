@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 //hostlerId and rollno will be same
 var hostellerSchema = new Schema({
+    hostelId : {
+        type:String,
+        required:true
+    },
     hostellerId : {
         type : String,
         required : true
@@ -29,6 +33,10 @@ var hostellerSchema = new Schema({
     },
     password : {
         type : String,
+        required:true
+    },
+    approved : {
+        type :Boolean,
         required:true
     }    
 });

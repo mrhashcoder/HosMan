@@ -24,14 +24,14 @@ app.use(bodyParser.json());
 //Importing Routes
 var indexRoute = require('./Routers/indexRoute');
 var hostelRoute = require('./Routers/hostelRoute');
-
+var hostellerRoute = require('./Routers/hostellerRoute');
 
 
 
 //Using Routes
 app.use(indexRoute); 
 app.use(hostelRoute);
-
+app.use(hostellerRoute);
 
 
 //DataBase Connection
