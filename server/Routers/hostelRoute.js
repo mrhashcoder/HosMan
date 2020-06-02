@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const validation = require('../middlewares/CreateHostelValidation');
+const validator = require('../middlewares/CreateHostelValidation');
 const control = require('../Controllers/hostelControl');
 
 
-router.post('/createHostel' ,validation, control.postCreateHostel);
+router.post('/createHostel' ,validator, control.postCreateHostel);
 
 
 

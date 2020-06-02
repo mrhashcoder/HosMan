@@ -7,19 +7,19 @@ module.exports = createHostelValidation = (req,res,next) => {
         var loginPassword = body.loginPassword;
 
         if(!hostelName){
-            res.json({Mesg : "Hostel Name is Not Valid"}).status(500);
+            res.json({Mesg : "Hostel Name is Not Valid"}).status(501);
         }else if(!collageName){
-            res.json({Mesg : "Collage Name is Not Valid"}).status(500);
+            res.json({Mesg : "Collage Name is Not Valid"}).status(501);
         }else if(!loginUserName){            
-            res.json({Mesg : "Warden Name is Not Valid"}).status(500);
+            res.json({Mesg : "Warden Name is Not Valid"}).status(501);
         }else if(!loginPassword){
-            res.json({Mesg : "Password is Not Valid"}).status(500);
+            res.json({Mesg : "Password is Not Valid"}).status(501);
         }else{
             next();
         }
 
     }catch(err){
         console.log("Error at MiddleWare");
-        res.json({Mesg : "Error at Middleware"}).status(500);
+        res.json({Mesg : "Error at Middleware"}).status(400);
     }
 }

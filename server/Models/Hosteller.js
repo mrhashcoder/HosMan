@@ -25,11 +25,11 @@ var hostellerSchema = new Schema({
         required : true
     },
     contact : {
-        type : String
+        type : String,
+        required:true
     },
     email : {
         type : String,
-        required : true
     },
     password : {
         type : String,
