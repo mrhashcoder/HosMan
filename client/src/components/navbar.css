@@ -33,10 +33,5 @@ nav {
 }
 .title {
 	flex: 2;
-	justify-content: space-around;
-	font-size: 1.7em;
-}
-
-img {
-	height: 75px;
+	justify-content: flex-end;
 }

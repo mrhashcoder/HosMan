@@ -1,6 +1,8 @@
 import React from 'react';
 import Navbar from './components/static/navbar.jsx';
 import Design from './components/static/design.jsx';
+import LoginForm from './components/LoginForm.jsx';
+import './App.css'
 
 class App extends React.Component {
   
@@ -9,6 +11,9 @@ class App extends React.Component {
       <div>
         <Navbar/>
         <Design/>
+        <div className ="login">
+          <LoginForm/>
+        </div>
       </div>
     );
   }
