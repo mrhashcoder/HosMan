@@ -6,11 +6,12 @@ const Schema = mongoose.Schema;
 var hostellerSchema = new Schema({
     hostelId : {
         type:String,
-        required:true
+        required:true,
     },
     hostellerId : {
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     rollNo : {
         type:String,

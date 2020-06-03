@@ -39,9 +39,7 @@ exports.postCreateHosteller = async(req , res) => {
 
             //Pushing hostller into Hostel Request
             await newHosteller.save();
-            findHostel['requestList'].push(hostellerId);
-            await findHostel.save();
-
+            await Hostel.updateOne({hostelId : hostelId} , {$push : {requestList : hostellerId}});
             res.json({Mesg : "Created New Hosteller"}).status(200);
         }       
 
@@ -87,8 +85,7 @@ exports.postCreateHostellerByWarden = async(req , res) => {
 
             //Pushing hostller into Hostel Request
             await newHosteller.save();
-            findHostel['hostellerList'].push(hostellerId);
-            await findHostel.save();
+            await Hostel.updateOne({hostelId : hostelId} , {$push : {hostellerList : hostellerId}});
             res.json({Mesg : "Created New Hosteller"}).status(200);
         }       
 
