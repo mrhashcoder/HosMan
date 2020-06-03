@@ -84,4 +84,21 @@ exports.wardenLogin = async(req , res) => {
     }
 }
 
+exports.approveHosteller = async(req, res) => {
+    try{
+        const hostellerId = req.body.hostellerId;
+        if(!hostellerId){
+            res.json({Mesg : "Hosteller Id not Recieved!1"}).status(206);
+            return;
+        }
+        const hostelId = req.hostelId;
+        const findHostel = await Hostel.findOne({hostelId : hostelId});
+
+        findHostel['requestList'] = findHostel['requestList'].filter(x => x !== hostellerId);
+        console.log(findHostel['requestList']);
+    }catch(err){
+        console.log("Some Error At Server!!");
+        res.json({Mesg : "Some Error at Server"}).status(400);
+    }
+}
 
