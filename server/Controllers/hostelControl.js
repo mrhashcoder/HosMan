@@ -1,5 +1,6 @@
 // Hostel Control 
 const Hostel = require('../Models/Hostel');
+const Hosteller = require('../Models/Hosteller');
 const bcrypt = require('bcrypt');
 const utilFunction = require('../utils/UtillFunction');
 const jwt = require('jsonwebtoken');
@@ -91,13 +92,26 @@ exports.approveHosteller = async(req, res) => {
             res.json({Mesg : "Hosteller Id not Recieved!1"}).status(206);
             return;
         }
-        const hostelId = req.hostelId;
-        const findHostel = await Hostel.findOne({hostelId : hostelId});
+        // Hostller Doc Update
+        var findHosteller = await Hosteller.findOne({hostellerId : hostellerId});
+        if(!findHosteller){
+            res.json({Mesg : "Hosteller Not Found!!"}).status(206);
+        }
+        
+        findHosteller['approved'] = true;
+        await findHosteller.save();
 
+        //Hostel Documentation Updating
+        const hostelId = req.hostelId;
+        var findHostel = await Hostel.findOne({hostelId : hostelId});
         findHostel['requestList'] = findHostel['requestList'].filter(x => x !== hostellerId);
-        console.log(findHostel['requestList']);
+        findHostel['hostellerList'].push(hostellerId);
+        await findHostel.save();        
+
+        res.json({Mesg : "Approved!!"}).status(200);
     }catch(err){
         console.log("Some Error At Server!!");
+        console.log(err);
         res.json({Mesg : "Some Error at Server"}).status(400);
     }
 }
