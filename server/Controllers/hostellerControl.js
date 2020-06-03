@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt');
 const Hosteller = require('../Models/Hosteller');
 const Hostel = require('../Models/Hostel');
+const Port = process.env.PORT;
 
 exports.postCreateHosteller = async(req , res) => {
     try{
+        console.log(Port);
         const body = req.body;
         var hostelId = body.hostelId;
         const findHostel = await Hostel.findOne({hostelId : hostelId});

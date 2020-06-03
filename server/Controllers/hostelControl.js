@@ -2,7 +2,7 @@
 const Hostel = require('../Models/Hostel');
 const bcrypt = require('bcrypt');
 const utilFunction = require('../utils/UtillFunction');
-
+const jwt = require('jsonwebtoken');
 
 exports.postCreateHostel = async(req,res) => {
     try{
@@ -17,6 +17,11 @@ exports.postCreateHostel = async(req,res) => {
         var requestList = new Array();
         var email = body.email;
         var hostelId = utilFunction.getId();
+        var findHostel = await Hostel.findOne({loginUserName : loginUserName});
+        if(findHostel){
+            res.json({Mesg : "User Name Taken"}).status(206);
+            return;
+        }
         var newHostel = new Hostel({
             hostelId : hostelId,
             hostelName : hostelName,
@@ -33,6 +38,49 @@ exports.postCreateHostel = async(req,res) => {
     }catch(err){
         console.log("Error");
         res.json({mesg : "Some Error"}).status(500);
+    }
+}
+
+
+exports.wardenLogin = async(req , res) => {
+    try{
+        const body = req.body;
+        var username = body.username;
+        var password = body.password;
+
+        var findHostel = await Hostel.findOne({loginUserName : username});
+        if(!findHostel){
+            console.log("Hostel Not Found!!!");
+            res.json({Mesg : "Hostel with this UserName is Not Found!!!"}).status(206);
+            return;
+        }
+
+        bcrypt.compare(password , findHostel['loginPassword'], (err, data) => {
+            if(err){
+                throw new Error(err);
+            }else if(data){
+                const payload = {
+                    warden : findHostel['loginUserName'],
+                    hostelId : findHostel['hostelId'],
+                }
+                const wardenTokenSecret = process.env.wardenTokenSecret;
+                const wardenJwtToken = jwt.sign(payload , wardenTokenSecret ,{
+                    expiresIn : '6h',
+                });
+                res.json({
+                    success : true,
+                    wardenJwtToken : "Bearer " + wardenJwtToken,
+                }).status(200);
+            }
+            else{
+                console.log("Incorrect Password!!");
+                res.json({Mesg : "Incorrect Password!!"}).status(206);
+            }
+        })
+        
+    }catch(err){
+        console.log(err);
+        res.json({Mesg : "Some Error at Server Control"}).status(400);
     }
 }
 

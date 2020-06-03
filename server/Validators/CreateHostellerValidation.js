@@ -11,17 +11,17 @@ module.exports = CreateHostellerValidation = (req,res,next) => {
         var password = body.password;
 
         if(!hostelId){
-            res.json({Mesg : "Hostel Id is not Valid!!"}).status(501);
+            res.json({Mesg : "Hostel Id is not Valid!!"}).status(501);return;
         }else if(!rollNo){
-            res.json({Mesg : "Room no is not Valid!!"}).status(501);
+            res.json({Mesg : "Room no is not Valid!!"}).status(501);return;
         }else if(!hostellerName){
-            res.json({Mesg : "Hosteller Name is not Valid!!"}).status(501);
+            res.json({Mesg : "Hosteller Name is not Valid!!"}).status(501);return;
         }else if(!roomNo){
-            res.json({Mesg : "Room no is not Valid!!"}).status(501);
+            res.json({Mesg : "Room no is not Valid!!"}).status(501);return;
         }else if(!contact){
-            res.json({Mesg : "Contact is not Valid!!"}).status(501);
+            res.json({Mesg : "Contact is not Valid!!"}).status(501);return;
         }else if(!password){
-            res.json({Mesg : "Password is not Valid!!"}).status(501);
+            res.json({Mesg : "Password is not Valid!!"}).status(501);return;
         }else{
             next();
         }
@@ -29,6 +29,6 @@ module.exports = CreateHostellerValidation = (req,res,next) => {
 
     }catch(err){
         console.log("Error At Middleware!!");
-        res.json({Mesg : "MiddleWare Error"}).status(500);
+        res.json({Mesg : "MiddleWare Error"}).status(500);return;
     }
 }

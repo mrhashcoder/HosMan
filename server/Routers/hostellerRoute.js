@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Control = require('../Controllers/hostellerControl');
-const validator = require('../middlewares/CreateHostellerValidation');
+const hostellerValidator = require('../Validators/CreateHostellerValidation');
 
 
-router.post('/createHosteller' ,validator, Control.postCreateHosteller);
-router.post('/createHostellerByWarden' , Control.postCreateHostellerByWarden);
+router.post('/createHosteller', hostellerValidator, Control.postCreateHosteller);
+router.post('/createHostellerByWarden',hostellerValidator, Control.postCreateHostellerByWarden);
 
 
 module.exports = router;
