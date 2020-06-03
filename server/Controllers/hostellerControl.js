@@ -141,3 +141,38 @@ exports.hostellerLogin = async(req ,res) => {
     }
 }
 
+exports.hostellerData = async(req, res) => {
+    try{
+        const hostellerId = req.hostellerId;
+        const findHosteller = await Hosteller.findOne({hostellerId : hostellerId});
+        if(!findHosteller){
+            console.log("Unable to find Data of Student!!")
+            res.json({Mesg : "Unable to find data of student!!"}).status(401);
+            return;
+        }
+        const hostelId = findHosteller['hostelId'];
+        const findHostel = await Hostel.findOne({hostelId : hostelId});
+        if(!findHostel){
+            console.log("Data of Collage has been Removed!!");
+            res.json({Mesg : "Data of Collage not Found"}).status(401);
+            return;
+        }
+        const sendData = {
+            hostelId : findHosteller['hostelId'],
+            hostellerName : findHosteller['hostellerName'],
+            contact : findHosteller['contact'],
+            email : findHosteller['email'],
+            rollNo : findHosteller['rollNo'],
+            roomNo : findHosteller['roomNo'],
+            collageName : findHostel['collageName'],
+            hostelName : findHostel['hostelName'],
+            hostelContact : findHostel['contact'],
+            hostelEmail : findHostel['email']
+        }
+        res.json(sendData).status(200);
+    }catch(err){
+        console.log('ERROR!!');
+        res.json({Mesg : "Some Error at Server"}).status(400);
+    }
+}
+
