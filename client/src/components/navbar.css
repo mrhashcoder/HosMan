@@ -1,0 +1,37 @@
+header {
+	display: flex;
+	width: 80%;
+	height: 10vh;
+	margin: auto;
+	align-items: center;
+}
+
+.logo-container,
+.nav-links,
+.title {
+	display: flex;
+}
+
+.logo-container {
+	flex: 1;
+}
+.logo {
+	font-weight: 400;
+	margin: 5px;
+}
+nav {
+	flex: 2;
+}
+.nav-links {
+	justify-content: space-around;
+	list-style: none;
+}
+.nav-link {
+	color: #5f5f79;
+	font-size: 18px;
+	text-decoration: none;
+}
+.title {
+	flex: 2;
+	justify-content: flex-end;
+}

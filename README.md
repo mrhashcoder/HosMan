@@ -1,5 +1,5 @@
 # HosMan
-## A Advanced Hostel Management System.
+## An Advanced Hostel Management System.
 
 ## Features :
 #### 1. Warden Login to Create Hostel and Add Hostlers
