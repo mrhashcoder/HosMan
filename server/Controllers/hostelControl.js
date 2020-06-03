@@ -93,20 +93,10 @@ exports.approveHosteller = async(req, res) => {
             return;
         }
         // Hostller Doc Update
-        var findHosteller = await Hosteller.findOne({hostellerId : hostellerId});
-        if(!findHosteller){
-            res.json({Mesg : "Hosteller Not Found!!"}).status(206);
-        }
-        
-        findHosteller['approved'] = true;
-        await findHosteller.save();
-
-        //Hostel Documentation Updating
-        const hostelId = req.hostelId;
-        var findHostel = await Hostel.findOne({hostelId : hostelId});
-        findHostel['requestList'] = findHostel['requestList'].filter(x => x !== hostellerId);
-        findHostel['hostellerList'].push(hostellerId);
-        await findHostel.save();        
+        //Update hostel
+        await Hosteller.updateOne({hostellerId : hostellerId} ,{approved : true});
+        await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {requestList : hostellerId}});
+        await Hostel.updateOne({hostelId : req.hostelId} , {$push : {hostellerList : hostellerId}});
 
         res.json({Mesg : "Approved!!"}).status(200);
     }catch(err){
