@@ -69,7 +69,7 @@ exports.wardenLogin = async(req , res) => {
                 });
                 res.json({
                     success : true,
-                    wardenJwtToken : "Bearer " + wardenJwtToken,
+                    wardenJwtToken : "wardenBearer " + wardenJwtToken,
                 }).status(200);
             }
             else{

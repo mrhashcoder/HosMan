@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
 const Hosteller = require('../Models/Hosteller');
 const Hostel = require('../Models/Hostel');
-const Port = process.env.PORT;
+const jwt = require('jsonwebtoken');
 
 exports.postCreateHosteller = async(req , res) => {
     try{
-        console.log(Port);
         const body = req.body;
         var hostelId = body.hostelId;
         const findHostel = await Hostel.findOne({hostelId : hostelId});
@@ -99,4 +98,46 @@ exports.postCreateHostellerByWarden = async(req , res) => {
     }
 }
 
+exports.hostellerLogin = async(req ,res) => {
+    try{
+        const username = req.body.username;
+        const password = req.body.password;
+        var findHosteller = await Hosteller.findOne({hostellerId : username});
+        if(!findHosteller){
+            console.log("Hosteller Not Found!!");
+            res.json({Mesg : "Hosteller Not Found"}).status(206);
+            return;
+        } 
+        if(!findHosteller['approved']){
+            console.log('Hosteller is not approved by hostel!!');
+            res.json({Mesg : "Hosteller is not approved by hostel!!"});
+            return;
+        }
+        bcrypt.compare(password , findHosteller['password'],(err, data) => {
+            if(err){
+                throw new Error(err);
+            }else if(data){
+                const payload = {
+                    hostellerId : findHosteller['hostellerId'],
+                    hostellerName : findHosteller['hostellerName']
+                };
+                const hostellerTokenSecret = process.env.hostellerTokenSecret;
+                const hostellerJwtToken =  jwt.sign(payload , hostellerTokenSecret , {
+                    expiresIn : '6h'
+                });
+                res.json({
+                    success : true,
+                    hostellerJwtToken : 'hostellerBearer ' + hostellerJwtToken
+                }).status(200);
+            }else{
+                console.log("Incorrect Password!!");
+                res.json({Mesg : "Incorrect Password!!!"}).status(206);
+            }
+        })
+
+    }catch(err){
+        console.log("ERROR AT SERVER!!");
+        res.json({Mesg : "Some Error At Server!1"}).status(400);
+    }
+}
 
