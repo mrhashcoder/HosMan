@@ -12,7 +12,7 @@ exports.postCreateHosteller = async(req , res) => {
             res.json({Mesg : "Hostel Not Found!!!"}).status(501);
         }else{
             var hostellerId = body.rollNo;
-            var findHosteller = await Hosteller.findOne({rollNo : body.rollNo});
+            var findHosteller = await Hosteller.findOne({$and : [{hostelId : hostelId} ,{hostellerId : hostellerId}]});
             if(findHosteller){
                 res.json({Mesg : "Hosteller Already Exists With This Roll No."}).status(501);
                 return;
@@ -24,7 +24,7 @@ exports.postCreateHosteller = async(req , res) => {
             var email = body.email;
             var password = body.password;
             var hashedPassword = await bcrypt.hash(password,12);
-
+            var messageList = new Array();
             const newHosteller = new Hosteller({
                 hostelId : hostelId,
                 hostellerId : hostellerId,
@@ -34,6 +34,7 @@ exports.postCreateHosteller = async(req , res) => {
                 contact : contact,
                 email : email,
                 password : hashedPassword,
+                messageList : messageList,
                 approved : false,
             });
 
@@ -52,7 +53,7 @@ exports.postCreateHosteller = async(req , res) => {
 exports.postCreateHostellerByWarden = async(req , res) => {
     try{
         const body = req.body;
-        var hostelId = body.hostelId;
+        var hostelId = req.hostelId;
         const findHostel = await Hostel.findOne({hostelId : hostelId});
         if(!findHostel){
             res.json({Mesg : "Hostel Not Found!!!"}).status(501);
@@ -70,6 +71,7 @@ exports.postCreateHostellerByWarden = async(req , res) => {
             var email = body.email;
             var password = body.password;
             var hashedPassword = await bcrypt.hash(password,12);
+            var messageList = new Array();
 
             const newHosteller = new Hosteller({
                 hostelId : hostelId,
@@ -80,6 +82,7 @@ exports.postCreateHostellerByWarden = async(req , res) => {
                 contact : contact,
                 email : email,
                 password : hashedPassword,
+                messageList : messageList,
                 approved : true,
             });
 
@@ -173,3 +176,18 @@ exports.hostellerData = async(req, res) => {
     }
 }
 
+
+exports.mesgList = async(req, res) => {
+    try{
+        var hostellerId = req.hostellerId;
+        var findHostller = await Hosteller.findOne({hostellerId : hostellerId});
+        if(!findHostller){
+            res.json({Mesg : "Hosteller Removed!!"}).status(206);
+        }
+        var mesgList = findHostller['messageList'];
+        res.json({MessageList : mesgList}).status(200);
+    }catch(err){
+        console.log('ERROR!!');
+        res.json({Mesg : "Some Error at Server"}).status(400);
+    }
+}

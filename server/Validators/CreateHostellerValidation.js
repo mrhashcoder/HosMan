@@ -3,7 +3,7 @@
 module.exports = CreateHostellerValidation = (req,res,next) => {
     try{
         const body = req.body;
-        var hostelId = body.hostelId;
+        var hostelId = body.hostelId || req.hostelId;
         var rollNo = body.rollNo;
         var hostellerName = body.hostellerName;
         var roomNo = body.roomNo;

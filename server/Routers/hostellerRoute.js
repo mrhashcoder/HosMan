@@ -12,7 +12,7 @@ router.post('/createHostellerByWarden',isWardenAuth ,hostellerValidator, Control
 router.post('/hostellerLogin', loginValidator,Control.hostellerLogin);
 
 
-
+router.get('/mesgList', isHostellerAuth, Control.mesgList);
 router.get('/hostellerData',isHostellerAuth,Control.hostellerData);
 
 module.exports = router;

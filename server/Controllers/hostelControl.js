@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const utilFunction = require('../utils/UtillFunction');
 const jwt = require('jsonwebtoken');
 
+
 exports.postCreateHostel = async(req,res) => {
     try{
         const body = req.body;
@@ -16,6 +17,7 @@ exports.postCreateHostel = async(req,res) => {
         var contact = body.contact;     
         var hostellerList = new Array();
         var requestList = new Array();
+        var noticeList = new Array();
         var email = body.email;
         var hostelId = utilFunction.getId();
         var findHostel = await Hostel.findOne({loginUserName : loginUserName});
@@ -29,6 +31,7 @@ exports.postCreateHostel = async(req,res) => {
             collageName : collageName,
             hostellerList : hostellerList,
             requestList : requestList,
+            noticeList : noticeList,
             loginUserName : loginUserName,
             loginPassword : hashedPassword,
             email : email,
@@ -198,3 +201,63 @@ exports.hostellerList = async(req ,res) => {
         res.json({Mesg : "Some error at server"}).status(400);
     }   
 }
+
+exports.sendNotice = async(req, res) => {
+    try{
+        var noticeData = req.body.noticeData;
+        if(!noticeData){
+            res.json({Mesg : "Invalied Request"}).status(206);
+            return;
+        }  
+        const noticePush = {
+            data : noticeData
+        };
+        await Hostel.updateOne({hostelId : req.hostelId} , {$push : {noticeList : noticePush}});
+        res.json({Mesg : "Notice Sent Successfully"}).status(200);
+    }catch(err){
+        console.log("Some Error at Server");
+        console.log(err);
+        res.json({Mesg : "Some Error at Server"}).status(401);
+    }
+}
+
+
+exports.sendMesg = async(req, res) => {
+    try{
+        var hostelId = req.hostelId;
+        var hostellerId = req.body.hostellerId
+        console.log(hostellerId);
+        const mesgData = req.body.mesgData;
+        if(!hostellerId || !mesgData){
+            res.json({Mesg : "Not Recived Data"}).status(206);
+            return;
+        }
+        var mesgPush = {
+            data : mesgData
+        };
+        await Hosteller.updateOne({hostellerId : hostellerId} , {$push : {messageList : mesgPush}});
+        res.json({Mesg : "Message Sent Succesfully"}).status(200);
+        
+    }catch(err){
+        console.log(err);
+        res.json({Mesg : "Some Error at Server"}).status(401);
+    }
+}
+
+exports.noticeList = async(req ,res) => {
+    try{
+        var hostelId = req.hostelId;
+        var findHostel = await Hostel.findOne({hostelId : hostelId});
+        if(!findHostel){
+            console.log("Hostel Not available");
+            res.json({Mesg : "Hostel not available at db"}).status(206);
+            return;
+        }
+        var noticeList = findHostel['noticeList'];
+        res.json({NoticeList : noticeList}).status(200);
+    }catch(err){
+        console.log(err);
+        res.json({Mesg : "Some Error at Server"}).status(401);
+    }
+}
+

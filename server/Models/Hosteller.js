@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
 //hostlerId and rollno will be same
 var hostellerSchema = new Schema({
     hostelId : {
@@ -39,7 +38,13 @@ var hostellerSchema = new Schema({
     approved : {
         type :Boolean,
         required:true
-    }    
+    },
+    messageList : [
+        new Schema({
+            data : String,
+            date : {type : Date , default : Date.now}
+        })
+    ]
 });
 
 

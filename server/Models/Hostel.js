@@ -32,6 +32,12 @@ var hostelSchema = new Schema({
     },
     email : {
         type : String
+    },
+    noticeList : {
+        type : [new Schema({
+            data : String,
+            date : {type : Date , default : Date.now}
+        })]
     }
 });
 
