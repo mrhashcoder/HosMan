@@ -92,8 +92,6 @@ exports.approveHosteller = async(req, res) => {
             res.json({Mesg : "Hosteller Id not Recieved!1"}).status(206);
             return;
         }
-        // Hostller Doc Update
-        //Update hostel
         await Hosteller.updateOne({hostellerId : hostellerId} ,{approved : true});
         await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {requestList : hostellerId}});
         await Hostel.updateOne({hostelId : req.hostelId} , {$push : {hostellerList : hostellerId}});
@@ -106,3 +104,97 @@ exports.approveHosteller = async(req, res) => {
     }
 }
 
+exports.rejectHosteller = async(req, res) => {
+    try{
+        const hostellerId = req.body.hostellerId;
+        if(!hostellerId){
+            res.json({Mesg : "HostellerId not Recieved!"}).status(206);
+            return;
+        }
+        await Hosteller.deleteOne({hostellerId : hostellerId});
+        await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {requestList : hostellerId}});
+
+        res.json({Mesg : "Hosteller Rejected!!"});
+    }catch(err){
+        console.log("Some Error at server");
+        res.json({Mesg : "Some Error at Server"}).status(400);
+    }
+}
+
+exports.removeHosteller = async(req ,res) => {
+    try{
+        const hostellerId = req.body.hostellerId;
+        if(!hostellerId){
+            res.json({Mesg : "HostellerId not Recieved!"}).status(206);
+            return;
+        }
+        await Hosteller.deleteOne({hostellerId : hostellerId});
+        await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {hostellerList : hostellerId}});
+
+        res.json({Mesg : "Hosteller Removed!!!!"});
+    }catch(err){
+        console.log("Some Error at server");
+        res.json({Mesg : "Some Error at Server"}).status(400);
+    }
+}
+
+exports.requestList = async(req , res) => {
+    try{
+        const hostelId = req.hostelId;
+        const findHostel = await Hostel.findOne({hostelId : hostelId});
+
+        var requestList = findHostel['requestList'];
+        var sendList = new Array();
+        for(var i = 0 ; i < requestList.length; i++){
+            var getHostellerId = requestList[i];
+            var getHosteller = await Hosteller.findOne({hostellerId : getHostellerId});
+
+            var sendHosteller = {
+                rollNo : getHosteller['rollNo'],
+                roomNo : getHosteller['roomNo'],
+                hostellerName : getHosteller['hostellerName'],
+                contact : getHosteller['contact'],
+                email : getHosteller['email']
+            };
+            sendList.push(sendHosteller);
+        }
+        res.json({Mesg : "Request List" , requestList : sendList}).status(200);
+    }catch(err){
+        console.log('Some Error at server');
+        console.log(err);
+        res.json({Mesg : "Some error at server"}).status(400);
+    }
+}
+
+
+exports.hostellerList = async(req ,res) => {
+    try{
+        const hostelId = req.hostelId;
+        const findHostel = await Hostel.findOne({hostelId : hostelId});
+
+        var hostellerList = findHostel['hostellerList'];
+        console.log(hostellerList);
+        var sendList = new Array();
+        for(var i = 0 ; i < hostellerList.length; i++){
+            var getHostellerId = hostellerList[i];
+            var getHosteller = await Hosteller.findOne({hostellerId : getHostellerId});
+            if(!getHosteller){
+                continue;
+            }
+            var sendHosteller = {
+                rollNo : getHosteller['rollNo'],
+                roomNo : getHosteller['roomNo'],
+                hostellerName : getHosteller['hostellerName'],
+                contact : getHosteller['contact'],
+                email : getHosteller['email']
+            };
+            sendList.push(sendHosteller);
+        }
+
+        res.json({Mesg : "Hosteller List" , HostellerList : sendList}).status(200);
+    }catch(err){
+        console.log('Some Error at server');
+        console.log(err);
+        res.json({Mesg : "Some error at server"}).status(400);
+    }   
+}

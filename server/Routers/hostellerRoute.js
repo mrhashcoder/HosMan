@@ -10,6 +10,9 @@ const isHostellerAuth = require('../Middlewares/isAuthHosteller');
 router.post('/createHosteller', hostellerValidator, Control.postCreateHosteller);
 router.post('/createHostellerByWarden',isWardenAuth ,hostellerValidator, Control.postCreateHostellerByWarden);
 router.post('/hostellerLogin', loginValidator,Control.hostellerLogin);
+
+
+
 router.get('/hostellerData',isHostellerAuth,Control.hostellerData);
 
 module.exports = router;

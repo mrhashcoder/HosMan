@@ -21,7 +21,7 @@ exports.postCreateHosteller = async(req , res) => {
             var hostellerName = body.hostellerName;
             var roomNo = body.roomNo;
             var contact = body.contact;
-            var email = body.emaill;
+            var email = body.email;
             var password = body.password;
             var hashedPassword = await bcrypt.hash(password,12);
 
@@ -67,7 +67,7 @@ exports.postCreateHostellerByWarden = async(req , res) => {
             var hostellerName = body.hostellerName;
             var roomNo = body.roomNo;
             var contact = body.contact;
-            var email = body.emaill;
+            var email = body.email;
             var password = body.password;
             var hashedPassword = await bcrypt.hash(password,12);
 
