@@ -246,6 +246,7 @@ exports.sendMesg = async(req, res) => {
 
 exports.noticeList = async(req ,res) => {
     try{
+        
         var hostelId = req.body.hostelId;
         var findHostel = await Hostel.findOne({hostelId : hostelId});
         if(!findHostel){
