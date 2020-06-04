@@ -1,20 +1,28 @@
 import React from 'react';
-import Navbar from './components/static/navbar.jsx';
-import Design from './components/static/design.jsx';
-import LoginForm from './components/LoginForm.jsx';
-import './App.css'
+import LandingPage from './pages/landingpage.jsx';
+import NotFoundPage from './pages/404.jsx';
+import Login from  './pages/auth/login.jsx';
+import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect
+} from "react-router-dom";
 
 class App extends React.Component {
   
   render() {
     return(
-      <div>
-        <Navbar/>
-        <Design/>
-        <div className ="login">
-          <LoginForm/>
-        </div>
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={LandingPage}/>
+          <Route exact path="/404" component={NotFoundPage}/>
+          <Route exact path="/login" component={Login} />
+          <Redirect to="/404"/>
+        </Switch>
+      </Router>
     );
   }
 }

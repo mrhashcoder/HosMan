@@ -1,0 +1,51 @@
+.msg {
+    margin-top: 5em;
+    text-align: center;
+    font-size: 3em;
+}
+
+.content {
+    text-align: center;
+    font-size: 4em;
+    margin: 3em;
+}
+
+button {
+    font-size: 0.4em;
+    margin: 0 0.5em;
+    padding: 0.4em 2em;
+    background-color: #c36cbb;
+    border-radius: 2%;
+    -webkit-box-shadow: 8px 8px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 8px 8px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 8px 8px 5px 0px rgba(0,0,0,0.75);
+}
+
+button:hover {
+    font-size: 0.5em;
+}
+
+.btn1 {
+    animation: drop 1.4s ease;
+}
+
+.btn2 {
+    animation: drop 1.8s ease;
+}
+
+@keyframes drop {
+	0% {
+		opacity: 0;
+		transform: translateY(-80px);
+    }
+    
+    50% {
+        opacity: 0.5;
+        transform: translateY(50px);
+    }
+
+	100% {
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
