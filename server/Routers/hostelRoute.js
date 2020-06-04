@@ -16,6 +16,6 @@ router.post('/sendMesg', isAuthWarden, Control.sendMesg);
 
 router.get('/hostellerList', isAuthWarden, Control.hostellerList);
 router.get('/requestList', isAuthWarden , Control.requestList);
-router.get('/noticeList',isAuthWarden, Control.noticeList);
+router.get('/noticeList', Control.noticeList);
 
 module.exports = router;
