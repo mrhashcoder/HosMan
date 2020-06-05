@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../components/static/navbar.jsx';
-import Design from '../components/static/design.jsx';
+import Navbar from '../components/static/navbar.jsx.js';
+import Design from '../components/static/design.jsx.js';
 import {Link} from 'react-router-dom';
 import './pages.css';
 
