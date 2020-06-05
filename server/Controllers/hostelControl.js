@@ -4,7 +4,7 @@ const Hosteller = require('../Models/Hosteller');
 const bcrypt = require('bcrypt');
 const utilFunction = require('../utils/UtillFunction');
 const jwt = require('jsonwebtoken');
-
+const whatsappMesg = require('../utils/whatsappMesg');
 
 exports.postCreateHostel = async(req,res) => {
     try{
@@ -98,7 +98,14 @@ exports.approveHosteller = async(req, res) => {
         await Hosteller.updateOne({hostellerId : hostellerId} ,{approved : true});
         await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {requestList : hostellerId}});
         await Hostel.updateOne({hostelId : req.hostelId} , {$push : {hostellerList : hostellerId}});
-
+        //Sending Whatsapp Mesg
+        const findHosteller = await Hosteller.findOne({hostellerId : hostellerId});
+        const mesgData = "Hello "+findHosteller['hostellerName'] + "\nYour Hostel Request Has been Approved."
+                          + "\nNow you are part of Hostel Family." +"\nLogin As hosteller at HosMan" + "\nThank You";
+        
+        const contact = findHosteller['contact'];
+        await whatsappMesg(mesgData , contact);
+        
         res.json({Mesg : "Approved!!"}).status(200);
     }catch(err){
         console.log("Some Error At Server!!");
@@ -116,7 +123,13 @@ exports.rejectHosteller = async(req, res) => {
         }
         await Hosteller.deleteOne({hostellerId : hostellerId});
         await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {requestList : hostellerId}});
-
+        //SEnding Whatsapp Mesg
+        const findHosteller = await Hosteller.findOne({hostellerId : hostellerId});
+        const mesgData = "Hello " + findHosteller['hostellerName'] + "\nYour Reqeust as Hosteller has been Rejected By warden"
+                        + "\nContact Your Hostel Warden For further Process" + "\nThank You";
+        const contact = findHosteller['contact'];
+        await whatsappMesg(mesgData , contact);
+        
         res.json({Mesg : "Hosteller Rejected!!"});
     }catch(err){
         console.log("Some Error at server");
@@ -133,6 +146,13 @@ exports.removeHosteller = async(req ,res) => {
         }
         await Hosteller.deleteOne({hostellerId : hostellerId});
         await Hostel.updateOne({hostelId : req.hostelId} , {$pull : {hostellerList : hostellerId}});
+
+        const findHosteller = await Hosteller.findOne({hostellerId : hostellerId});
+        const mesgData = "Hello " + findHosteller['hostellerName'] + "\nYou Has been Removed From Your Hostel" 
+                            +  "\nNow You are no Longer Hosteller" + "\nContact Your Hostel Warden For further Process" 
+                            + "\nThank You";
+        const contact = findHosteller['contact'];
+        await whatsappMesg(mesgData , contact);
 
         res.json({Mesg : "Hosteller Removed!!!!"});
     }catch(err){
