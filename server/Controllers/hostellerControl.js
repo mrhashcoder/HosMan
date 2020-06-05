@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const Hosteller = require('../Models/Hosteller');
 const Hostel = require('../Models/Hostel');
 const jwt = require('jsonwebtoken');
+const whatsappMesg = require('../utils/whatsappMesg');
 
 exports.postCreateHosteller = async(req , res) => {
     try{
@@ -41,6 +42,7 @@ exports.postCreateHosteller = async(req , res) => {
             //Pushing hostller into Hostel Request
             await newHosteller.save();
             await Hostel.updateOne({hostelId : hostelId} , {$push : {requestList : hostellerId}});
+            whatsappMesg("hello" , "23456");
             res.json({Mesg : "Created New Hosteller"}).status(200);
         }       
 
@@ -89,6 +91,13 @@ exports.postCreateHostellerByWarden = async(req , res) => {
             //Pushing hostller into Hostel Request
             await newHosteller.save();
             await Hostel.updateOne({hostelId : hostelId} , {$push : {hostellerList : hostellerId}});
+            
+            //Whatsapp Mesg Sending
+            var message = "Congratulations!! "  + hostellerName +"\nYour Hosman Account Has Been Created\n"
+                                +"Login Your HosMan Account as Hosteller \n" + "These Are Private Informations :\n" +
+                                "Username : "+rollNo + "\nPassword : "+ password + "\nHostelName : " + findHostel['hostelName'] + 
+                                "\nRoom No : "+ roomNo +"\nThank you";
+            whatsappMesg(message , contact);                        
             res.json({Mesg : "Created New Hosteller"}).status(200);
         }       
 
