@@ -1,11 +1,11 @@
 import React from 'react';
 //Importing Pages
 import Error404 from './Pages/Main/Error404.jsx';
-import Index from './Pages/Main/index.jsx';
+import Index from './Pages/Main/Index.jsx';
 import authWarden from './Pages/Auth/authWarden';
 import authHosteller from './Pages/Auth/authHosteller';
-import Hosteller from './Pages/Hosteller/index';
-import Warden from './Pages/Warden/index';
+import Hosteller from './Pages/Hosteller/Index';
+import Warden from './Pages/Warden/Index';
 
 //Importing Css
 import './App.css';
@@ -29,8 +29,7 @@ class App extends React.Component {
           <Route exact path="/warden" component={Warden}/>          
           <Route exact path="/authWarden" component={authWarden}/>
           <Route exact path="/authHosteller" component={authHosteller}/>
-          <Route exact path="/404" component={Error404}/>
-          
+          <Route exact path="/404" component={Error404}/>          
           <Redirect to="/404"/>
         </Switch>
       </Router>
