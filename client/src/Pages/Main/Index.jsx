@@ -1,12 +1,12 @@
 import React from 'react';
-import NavbarTop from './../../Components/Static/NavbarTop';
+import NavbarTop from '../../Components/Static/NavbarTop';
 
 class LandingPage extends React.Component {
 
     render() {
         return(
             <div>
-                <NavbarTop/>
+                <NavbarTop/>                
             </div>
         ); 
     }
