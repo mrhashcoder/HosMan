@@ -1,20 +1,18 @@
-import React from 'react';
-import '../pages.css';
-import Design from '../../components/static/design';
-import Navbar from '../../components/static/navbar';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+class authWarden extends Component {
+    static propTypes = {
 
-class Login extends React.Component {
+    }
+
     render() {
-        return(
+        return (
             <div>
-                <Navbar/>
-                <Design/>
-                <div className="msg">
-                    <h1>Yha login hoga!!</h1>
-                </div>
+                Warden Authentication
+                Login And Register
             </div>
-        ); 
+        )
     }
 }
 
-export default Login;
+export default authWarden

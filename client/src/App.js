@@ -1,8 +1,15 @@
 import React from 'react';
-import LandingPage from './pages/landingpage.jsx';
-import NotFoundPage from './pages/404.jsx';
-import Login from  './pages/auth/login.jsx';
+//Importing Pages
+import Error404 from './Pages/Main/Error404.jsx';
+import Index from './Pages/Main/index.jsx';
+import authWarden from './Pages/Auth/authWarden';
+import authHosteller from './Pages/Auth/authHosteller';
+import Hosteller from './Pages/Hosteller/index';
+import Warden from './Pages/Warden/index';
+
+//Importing Css
 import './App.css';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -17,9 +24,13 @@ class App extends React.Component {
     return(
       <Router>
         <Switch>
-          <Route exact path="/" component={LandingPage}/>
-          <Route exact path="/404" component={NotFoundPage}/>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Index}/>
+          <Route exact path="/hosteller" component={Hosteller}/>
+          <Route exact path="/warden" component={Warden}/>          
+          <Route exact path="/authWarden" component={authWarden}/>
+          <Route exact path="/authHosteller" component={authHosteller}/>
+          <Route exact path="/404" component={Error404}/>
+          
           <Redirect to="/404"/>
         </Switch>
       </Router>
