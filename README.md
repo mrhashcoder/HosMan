@@ -9,3 +9,5 @@
 #### 5. Much More when We will Deploy this.
 #### 6. Any Update Information at hosteller page.
 #### 7. User Services like password change and forget options.
+#### 8. Notice Board and Mesg System between hostelle and warden
+#### 9. Rebate system 
